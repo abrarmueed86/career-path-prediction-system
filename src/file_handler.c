@@ -36,7 +36,7 @@ void updateStudentFile(Student arr[],int n){
     fwrite(arr, sizeof(Student),n,f);
 }
 
-/*--Load prediction history for a student--*/
+/*--Save one PredictionRecord(append)--*/
 void savePrediction(PredictionRecord *pr){
     FILE *f=fopen("dsts/history.dat","ab");
     if(f==NULL){
@@ -47,3 +47,21 @@ void savePrediction(PredictionRecord *pr){
     fclose(f);  
 }
 
+/*-- Load prediction history for a student--*/
+int loadHistory(int studentRef,PredictionRecord arr[],int *n){
+    FILE *f=fopen("data/history.dat","rb");
+    *n=0;
+    if(f==NULL) return 0; 
+    
+    PredictionRecord temp;
+    while(fread(&temp,sizeof(PredictionRecord),1,f)==1){
+        if(temp.studentID == studentRef){
+            arr[(*n)++]= temp;
+        }
+     }
+     fclose(f);
+    return *n;
+ }
+
+ 
+   
